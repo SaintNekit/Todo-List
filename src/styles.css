@@ -1,0 +1,92 @@
+#root,
+.todo-list-app {
+  display: flex;
+  flex-flow: column nowrap;
+}
+  
+#root {
+  align-items: center;
+  width: 100%;
+}
+
+.todo-item {
+  border: 2px solid #ececec;
+}
+  
+.todo-input {
+  padding: 0 14px;
+  width: 60%;
+  line-height: 3em;
+  transition: .25s border ease-in-out;
+  margin-bottom: 10px;
+}
+
+.todo-add-btn,
+.todo-add-btn:hover {
+  width: 15%;
+  line-height: 3em;
+  margin-left: 10px;
+  border-radius: 10%;
+  background-color: #1abc9c;
+  cursor: pointer;
+}
+  
+.todo-list ul {
+  padding: 0;
+  margin: 0;
+}
+  
+.todo-list li {
+  list-style-type: none;
+}
+
+.todo-item {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  padding: 8px;
+}
+  
+.todo-item-wrapper {
+  flex-grow: 1;
+  padding: 0 16px;
+}
+
+.todo-item span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #ececec;
+  transition: .25s all ease-in-out;
+}
+
+.todo-item-checked,
+.todo-item-checked:hover {
+  color: #fff;
+  background: #1abc9c;
+  border: 1px solid #1abc9c;
+  cursor: pointer;
+}
+
+.todo-item-unchecked:hover {
+  cursor: pointer;
+}
+  
+.item-remove {
+  display: flex;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+  color: #ececec;
+  transition: .25s color ease-in-out;
+}
+  
+.item-remove:hover {
+  color: #111;
+}
+  
