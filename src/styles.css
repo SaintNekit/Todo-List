@@ -2,6 +2,7 @@
 .todo-list-app {
   display: flex;
   flex-flow: column nowrap;
+  width: 50%
 }
   
 #root {
@@ -23,12 +24,13 @@
 
 .todo-add-btn,
 .todo-add-btn:hover {
-  width: 15%;
+  width: 6em;
   line-height: 3em;
-  margin-left: 10px;
+  margin-left: 4em;
   border-radius: 10%;
   background-color: #1abc9c;
   cursor: pointer;
+  float: right;
 }
   
 .todo-list ul {
@@ -45,6 +47,7 @@
   flex-flow: row nowrap;
   align-items: center;
   padding: 8px;
+  margin-bottom: 8px;
 }
   
 .todo-item-wrapper {

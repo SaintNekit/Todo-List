@@ -1,68 +1,83 @@
-import React, { useState, useEffect, ChangeEvent, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import fetch from 'cross-fetch';
 import '../styles.css';
 import ToDoList from './todo_list';
 import { ToDoInterface } from '../interfaces';
+import Form from './Form';
 
 const App = () => {
   const [todos, setTodos] = useState<ToDoInterface[]>([]);
-  const [newTodoText, setNewTodoText] = useState('');
-  let inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/todos').then(response => response.json()).then(data => {
-      setTodos(data);
+      // setTodos(data);
+      const Todos = data.filter((el: any) => el.id < 10);
+      setTodos(Todos);
     });
   }, [])
 
   const remove = (id: number ) => {
-    const deletion: ToDoInterface[] = todos.filter((el) => el.id !== id);
-    setTodos(deletion);
-    // fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {method: 'DELETE'})
+    fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {method: 'DELETE'})
+      .then(response => response.json())
+      .then(() => {
+        const newList: ToDoInterface[] = todos.filter((el) => el.id !== id);
+        setTodos(newList);
+      })
   };
 
   const complete = (id: number) => {
-    todos.find((el) => el.id === id)!.completed = !todos.find((el) => el.id === id)!.completed;
+    const toggleComplete = todos.find((el) => el.id === id);
+    toggleComplete!.completed = !toggleComplete!.completed;
     setTodos([...todos])
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewTodoText(e.target.value);
-  };
-
-  const createTodo = () => {
+  const createTodo = (text: string) => {
     const newTodo: ToDoInterface = {
       id: Math.random(),
-      title: newTodoText,
-      completed: false
+      title: text,
+      completed: false,
     }
 
-    todos.unshift(newTodo);
-    setTodos([...todos]);
+    fetch('https://jsonplaceholder.typicode.com/todos', {
+      method: 'POST',
+      body: JSON.stringify(newTodo),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        data.id = Math.random();
+        const newList: ToDoInterface[] = [data, ...todos];
+        setTodos(newList);
+      })
+  }
 
-    if (inputRef && inputRef.current) {
-      inputRef.current.value = '';
-      setNewTodoText('');
-    }
-
+  const update = (id: number) => {
+    fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        title: 'Up to date'
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        todos.find((el) => el.id === id)!.title = data.title;
+        setTodos([...todos])
+      })
   }
   
   return (
     <div className="todo-list-app">
-      <div>
-        <input 
-          type="text" 
-          ref={inputRef} 
-          className="todo-input" 
-          placeholder="Write your todo here" 
-          onChange={(event) => handleChange(event)}
-        />
-        <button onClick={newTodoText ? createTodo : () => alert('Enter To Do')} className="todo-add-btn">ADD</button>
-      </div>
-      <ToDoList 
+        <Form createTodo={createTodo}/>
+        <ToDoList 
         todos={todos}
         remove={remove}
         complete={complete}
+        update={update}
       />
     </div>
   )

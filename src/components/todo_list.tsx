@@ -12,6 +12,7 @@ const ToDoList = (props: ListInterface) => {
               todo={el}
               complete={props.complete}
               remove={props.remove}
+              update={props.update}
             />
           </li>
         ))}
