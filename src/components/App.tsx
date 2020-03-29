@@ -59,6 +59,15 @@ const App = () => {
   }
 
   const update = (id: number) => {
+    if (id < 1) {
+      const newList = todos.map((el) => {
+        if (el.id === id) {
+          el.title = inputText;
+        }
+        return el;
+      })
+      setTodos(newList);
+    } else {
     fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
       method: 'PUT',
       body: JSON.stringify({
@@ -77,10 +86,10 @@ const App = () => {
           return el;
         })
         setTodos(newList)
-      })
+      })}
       setInputText('');
   }
-
+  
   return (
     <div className="todo-list-app">
         <Form createTodo={createTodo} setInputText={setInputText} inputText={inputText}/>

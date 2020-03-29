@@ -1,6 +1,7 @@
 import React from 'react';
 import ToDoItem from './todo_item';
 import { ListInterface } from '../interfaces';
+import PropTypes from 'prop-types';
 
 const ToDoList = (props: ListInterface) => {
   return (
@@ -20,6 +21,14 @@ const ToDoList = (props: ListInterface) => {
       </ul>
     </div>
   )
+}
+
+ToDoList.propTypes = {
+  complete: PropTypes.func,
+  remove: PropTypes.func,
+  update: PropTypes.func,
+  todos: PropTypes.array,
+  inputText: PropTypes.string,
 }
 
 export default ToDoList;

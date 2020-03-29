@@ -1,5 +1,6 @@
 import React from 'react';
 import { ItemInterface } from '../interfaces';
+import PropTypes from 'prop-types';
 
 const ToDoItem = (props: ItemInterface) => {
   return (
@@ -20,6 +21,14 @@ const ToDoItem = (props: ItemInterface) => {
       </div>
     </div>
   )
+}
+
+ToDoItem.propTypes = {
+  complete: PropTypes.func,
+  todo: PropTypes.object,
+  update: PropTypes.func,
+  remove: PropTypes.func,
+  inputText: PropTypes.string,
 }
 
 export default ToDoItem;
