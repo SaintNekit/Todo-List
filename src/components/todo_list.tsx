@@ -13,6 +13,7 @@ const ToDoList = (props: ListInterface) => {
               complete={props.complete}
               remove={props.remove}
               update={props.update}
+              inputText={props.inputText}
             />
           </li>
         ))}

@@ -7,6 +7,7 @@ import Form from './Form';
 
 const App = () => {
   const [todos, setTodos] = useState<ToDoInterface[]>([]);
+  const [inputText, setInputText] = useState('');
 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/todos').then(response => response.json()).then(data => {
@@ -26,9 +27,13 @@ const App = () => {
   };
 
   const complete = (id: number) => {
-    const toggleComplete = todos.find((el) => el.id === id);
-    toggleComplete!.completed = !toggleComplete!.completed;
-    setTodos([...todos])
+    const toggleComplete = todos.map((el) => {
+      if (el.id === id) {
+        el.completed = !el.completed;
+      } 
+      return el;
+    })
+    setTodos(toggleComplete)
   };
 
   const createTodo = (text: string) => {
@@ -57,7 +62,7 @@ const App = () => {
     fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
       method: 'PUT',
       body: JSON.stringify({
-        title: 'Up to date'
+        title: inputText
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -65,19 +70,26 @@ const App = () => {
     })
       .then(response => response.json())
       .then(data => {
-        todos.find((el) => el.id === id)!.title = data.title;
-        setTodos([...todos])
+        const newList = todos.map((el) => {
+          if (el.id === id) {
+            el.title = data.title;
+          }
+          return el;
+        })
+        setTodos(newList)
       })
+      setInputText('');
   }
-  
+
   return (
     <div className="todo-list-app">
-        <Form createTodo={createTodo}/>
+        <Form createTodo={createTodo} setInputText={setInputText} inputText={inputText}/>
         <ToDoList 
         todos={todos}
         remove={remove}
         complete={complete}
         update={update}
+        inputText={inputText}
       />
     </div>
   )

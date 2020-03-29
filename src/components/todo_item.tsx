@@ -14,7 +14,7 @@ const ToDoItem = (props: ItemInterface) => {
       <div className="todo-item-wrapper">
         {props.todo.title}
       </div>
-      <button onClick={() => props.update(props.todo.id)}>update</button>
+      <button onClick={props.inputText.length ? () => props.update(props.todo.id) : () => alert('Enter text')}>update</button>
       <div className="item-remove" onClick={() => props.remove(props.todo.id)}>
         &#x02A2F;
       </div>
